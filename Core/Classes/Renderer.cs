@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-
+using System.Runtime.CompilerServices;
 using GenArt.AST;
 
 namespace GenArt.Classes
@@ -9,6 +9,7 @@ namespace GenArt.Classes
     public static class Renderer
     {
         //Render a Drawing
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Render(DnaDrawing drawing,Graphics g,int scale)
         {
             g.Clear(Color.Black);
@@ -18,6 +19,7 @@ namespace GenArt.Classes
         }
 
         //Render a polygon
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Render(DnaPolygon polygon, Graphics g, int scale)
         {
             using (Brush brush = GetGdiBrush(polygon.Brush))
@@ -28,6 +30,7 @@ namespace GenArt.Classes
         }
 
         //Convert a list of DnaPoint to a list of System.Drawing.Point's
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Point[] GetGdiPoints(IList<DnaPoint> points,int scale)
         {
             Point[] pts = new Point[points.Count];
@@ -40,6 +43,7 @@ namespace GenArt.Classes
         }
 
         //Convert a DnaBrush to a System.Drawing.Brush
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Brush GetGdiBrush(DnaBrush b)
         {
             return new SolidBrush(Color.FromArgb(b.Alpha, b.Red, b.Green, b.Blue));

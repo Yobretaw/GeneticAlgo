@@ -7,6 +7,7 @@ namespace GenArt.Classes
 {
     public static class FitnessCalculator
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double GetDrawingFitness(DnaDrawing newDrawing, Color[,] sourceColors)
         {
             double error = 0;
@@ -15,7 +16,6 @@ namespace GenArt.Classes
             using (Graphics g = Graphics.FromImage(b))
             {
                 Renderer.Render(newDrawing, g, 1);
-
                 BitmapData bmd1 = b.LockBits(new Rectangle(0, 0, Tools.MaxWidth, Tools.MaxHeight), ImageLockMode.ReadOnly,
                                              PixelFormat.Format24bppRgb);
 

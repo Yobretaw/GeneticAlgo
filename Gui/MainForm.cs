@@ -139,7 +139,7 @@ namespace GenArt
             thread = new Thread(StartEvolution)
                          {
                              IsBackground = true,
-                             Priority = ThreadPriority.AboveNormal
+                             Priority = ThreadPriority.Highest
                          };
 
             thread.Start();

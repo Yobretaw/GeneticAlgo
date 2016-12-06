@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using GenArt.Classes;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace GenArt.AST
 {
@@ -25,6 +26,7 @@ namespace GenArt.AST
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetDirty()
         {
             IsDirty = true;
@@ -40,6 +42,7 @@ namespace GenArt.AST
             SetDirty();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public DnaDrawing Clone()
         {
             var drawing = new DnaDrawing();
@@ -50,7 +53,7 @@ namespace GenArt.AST
             return drawing;
         }
 
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Mutate()
         {
             if (Tools.WillMutate(Settings.ActiveAddPolygonMutationRate))
@@ -66,6 +69,7 @@ namespace GenArt.AST
                 polygon.Mutate(this);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void MovePolygon()
         {
             if (Polygons.Count < 1)
@@ -79,6 +83,7 @@ namespace GenArt.AST
             SetDirty();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void RemovePolygon()
         {
             if (Polygons.Count > Settings.ActivePolygonsMin)
@@ -89,6 +94,7 @@ namespace GenArt.AST
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddPolygon()
         {
             if (Polygons.Count < Settings.ActivePolygonsMax)
