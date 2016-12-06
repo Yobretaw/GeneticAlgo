@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using GenArt.AST;
+using System.Runtime.CompilerServices;
 
 namespace GenArt.Classes
 {
@@ -37,12 +38,14 @@ namespace GenArt.Classes
             return error;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static unsafe Color GetPixel(BitmapData bmd, int x, int y)
         {
             byte* p = (byte*) bmd.Scan0 + y*bmd.Stride + 3*x;
             return Color.FromArgb(p[2], p[1], p[0]);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static double GetColorFitness(Color c1, Color c2)
         {
             double r = c1.R - c2.R;

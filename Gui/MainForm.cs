@@ -60,10 +60,11 @@ namespace GenArt
                 currentDrawing = GetNewInitializedDrawing();
             lastSelected = 0;
 
+            const int numThreads = 16;
+            var tasks = new Task<Tuple<DnaDrawing, double>>[numThreads];
             while (isRunning)
             {
-                var tasks = new Task<Tuple<DnaDrawing, double>>[8];
-                for (var i = 0; i < 8; i++)
+                for (var i = 0; i < numThreads; i++)
                 {
                     tasks[i] = Task.Factory.StartNew(() => Work(currentDrawing, sourceColors));
                 }
@@ -77,39 +78,10 @@ namespace GenArt
                     }
 
                     selected++;
-                    lock (currentDrawing)
-                    {
-                        currentDrawing = task.Result.Item1;
-                        errorLevel = task.Result.Item2;
-                    }
+                    currentDrawing = task.Result.Item1;
+                    errorLevel = task.Result.Item2;
                 }
-                generation += 8;
-                /*
-                DnaDrawing newDrawing;
-                lock (currentDrawing)
-                {
-                    newDrawing = currentDrawing.Clone();
-                }
-                newDrawing.Mutate();
-
-                if (newDrawing.IsDirty)
-                {
-                    generation++;
-
-                    double newErrorLevel = FitnessCalculator.GetDrawingFitness(newDrawing, sourceColors);
-
-                    if (newErrorLevel <= errorLevel)
-                    {
-                        selected++;
-                        lock (currentDrawing)
-                        {
-                            currentDrawing = newDrawing;
-                        }
-                        errorLevel = newErrorLevel;
-                    }
-                }
-                //else, discard new drawing
-                */
+                generation += numThreads;
             }
         }
 
@@ -221,10 +193,7 @@ namespace GenArt
 
             if (shouldRepaint)
             {
-                lock (currentDrawing)
-                {
-                    guiDrawing = currentDrawing.Clone();
-                }
+                guiDrawing = currentDrawing.Clone();
                 pnlCanvas.Invalidate();
                 lastRepaint = DateTime.Now;
                 lastSelected = selected;
