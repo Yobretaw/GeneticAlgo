@@ -2,39 +2,29 @@
 
 type DnaBrush =
     struct
-        val R: byte
-        val G: byte
-        val B: byte
-        val Alpha: byte
-
-        new (r, g, b, alpha) =
-            { R = r; G = g; B = b; Alpha = alpha; }
-    end
-
-type DnaColor =
-    struct
+        val A: byte
         val R: byte
         val G: byte
         val B: byte
 
-        new (r, g, b) =
-            { R = r; G = g; B = b; }
+        new (a, r, g, b) =
+            { A = a; R = r; G = g; B = b; }
     end
 
 type DnaPoint =
     struct
         val X: int
         val Y: int
-        val Color: DnaColor
+        val Brush: DnaBrush
 
-        new (x, y, color) =
-            { X = x; Y = y; Color = color; }
+        new (x, y, brush) =
+            { X = x; Y = y; Brush = brush; }
     end
 
 type DnaImage = {
     Width: int
     Height: int
-    Points: DnaPoint[,]
+    Points: DnaBrush[,]
 }
 
 type DnaPolygon = {
