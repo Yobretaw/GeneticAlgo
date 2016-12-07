@@ -13,11 +13,8 @@ let ColorFromBitmap (bitmap: Bitmap) x y =
 let ConvertBitmapToDnaImage (bitmap: Bitmap) =
     let width = bitmap.Width
     let height = bitmap.Height
-    let image = {
-        Width = width;
-        Height = height;
-        Points = Array2D.init width height (fun i j -> ColorFromBitmap bitmap i j)
-    }
+    let points = Array.init (width * height) (fun i -> ColorFromBitmap bitmap (i / width) (i % width))
+    let image = new DnaImage(width, height, points)
     image
 
 let ConvertDnaImageToBitmap (img: DnaImage) =
@@ -27,6 +24,6 @@ let ConvertDnaImageToBitmap (img: DnaImage) =
 
     for i in 0 .. (width - 1) do
         for j in 0 .. (height - 1) do
-            let c = img.Points.[i, j]
+            let c = img.Points.[i * width + j]
             bitmap.SetPixel(i, j, Color.FromArgb((int)c.A, (int)c.R, (int)c.G, (int)c.B))
     bitmap

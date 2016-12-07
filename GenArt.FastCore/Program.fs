@@ -1,5 +1,6 @@
 ﻿module Program
 
+open System
 open Util
 open Models
 
@@ -12,7 +13,8 @@ let main args =
 
     let e = d -- c
 
-    let a = 255uy
-    let b = 1uy
-    let c = a + b
+    for i = 0 to 255 do
+        let c = DnaColor.CreateRandomColor
+        printfn "%A, %A, %A, %A" c.A c.R c.G c.B
+
     0
