@@ -1,43 +1,43 @@
-﻿namespace GenArt.FastCore.Models
+﻿module Models
 
-type Brush =
+type DnaBrush =
     struct
-        val R: int
-        val G: int
-        val B: int
-        val Alpha: int
+        val R: byte
+        val G: byte
+        val B: byte
+        val Alpha: byte
 
         new (r, g, b, alpha) =
             { R = r; G = g; B = b; Alpha = alpha; }
     end
 
-type Color =
+type DnaColor =
     struct
-        val R: int
-        val G: int
-        val B: int
+        val R: byte
+        val G: byte
+        val B: byte
 
         new (r, g, b) =
             { R = r; G = g; B = b; }
     end
 
-type Point =
+type DnaPoint =
     struct
         val X: int
         val Y: int
-        val Color: Color
+        val Color: DnaColor
 
         new (x, y, color) =
             { X = x; Y = y; Color = color; }
     end
 
-type Image = {
+type DnaImage = {
     Width: int
     Height: int
-    Points: Point array
+    Points: DnaPoint[,]
 }
 
-type Polygon = {
-    Points: Point array
-    Brush: Brush
+type DnaPolygon = {
+    Points: DnaPoint array
+    Brush: DnaBrush
 }
