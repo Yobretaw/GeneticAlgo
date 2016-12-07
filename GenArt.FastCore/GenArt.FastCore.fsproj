@@ -50,6 +50,13 @@
     <Compile Include="Util.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\GenArt.Core.csproj">
+      <Name>GenArt.Core</Name>
+      <Project>{e4df4818-a171-41e0-9ac4-4fdb8af6482a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>

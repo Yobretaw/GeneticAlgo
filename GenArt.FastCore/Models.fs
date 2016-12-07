@@ -3,6 +3,7 @@
 open System
 open System.Threading
 open Random
+open GenArt.Classes
 
 [<Struct>]
 type DnaColor =
@@ -26,6 +27,25 @@ type DnaColor =
         let bytes = GetRandomBytes 4
         new DnaColor(bytes.[0], bytes.[1], bytes.[2], bytes.[3])
 
+    member this.Mutate =
+        let a = match Random.Next(Settings.ActiveAlphaMutationRate) with
+                | 0 -> GetRandomByte
+                | _ -> this.A
+
+        let r = match Random.Next(Settings.ActiveRedMutationRate) with
+                | 0 -> GetRandomByte
+                | _ -> this.R
+
+        let g = match Random.Next(Settings.ActiveGreenRangeMax) with
+                | 0 -> GetRandomByte
+                | _ -> this.G
+
+        let b = match Random.Next(Settings.ActiveBlueMutationRate) with
+                | 0 -> GetRandomByte
+                | _ -> this.B
+
+        new DnaColor(a, r, g, b)
+
 [<Struct>]
 type DnaPoint =
     val X: int
@@ -38,6 +58,8 @@ type DnaPoint =
     static member (--) (p1: DnaPoint, p2: DnaPoint) =
         p1.Color -- p2.Color
 
+    static member CreateRandomPoint(x, y, color) = new DnaPoint(x, y, color)
+
 type DnaImage(width, height, points) =
     member this.Width: int = width
     member this.Height: int = height
@@ -47,8 +69,17 @@ type DnaImage(width, height, points) =
         Array.mapi (fun i point -> point -- b.Points.[i]) a.Points
         |> Array.sum
 
-type DnaPolygon = {
-    Points: DnaPoint list
-    PointCount: int
-    Color: DnaColor
-}
+    member this.Mutate =
+        let points = Array.map (fun (c: DnaColor) -> c.Mutate) this.Points
+        new DnaImage(this.Width, this.Height, points)
+
+    static member CalculateFitness (img1: DnaImage, img2: DnaImage) =
+        let mutable error = 0
+        for i = 0 to img1.Points.Length - 1 do
+            error <- error + (img1.Points.[i] -- img2.Points.[i])
+        error
+
+type DnaPolygon(points, count, color) =
+    member this.Points: DnaPoint list = points
+    member this.PointCount: int = count
+    member this.Color: DnaColor = color

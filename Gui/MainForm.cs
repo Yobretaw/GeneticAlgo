@@ -81,7 +81,7 @@ namespace GenArt
                     currentDrawing = task.Result.Item1;
                     errorLevel = task.Result.Item2;
                 }
-                generation += numThreads;
+                generation++;
             }
         }
 

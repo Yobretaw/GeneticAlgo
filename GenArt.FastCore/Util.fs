@@ -13,7 +13,7 @@ let ColorFromBitmap (bitmap: Bitmap) x y =
 let ConvertBitmapToDnaImage (bitmap: Bitmap) =
     let width = bitmap.Width
     let height = bitmap.Height
-    let points = Array.init (width * height) (fun i -> ColorFromBitmap bitmap (i / width) (i % width))
+    let points = Array.init (width * height - 1) (fun i -> ColorFromBitmap bitmap (i % width) (i / width))
     let image = new DnaImage(width, height, points)
     image
 
