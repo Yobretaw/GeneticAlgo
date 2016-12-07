@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Models.fs" />
-    <None Include="Script.fsx" />
+    <Compile Include="Random.fs" />
     <Compile Include="Util.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

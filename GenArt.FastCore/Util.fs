@@ -6,30 +6,18 @@ open Models
 
 let ReadBitmapFromFile (path: string) = new Bitmap(path)
 
-let ColorToDnaBrush (color: Color) =
-    new DnaBrush(color.A, color.R, color.G, color.B)
-
-let DnaBrushToColor (brush: DnaBrush) =
-    let a = (int)brush.A
-    let r = (int)brush.R
-    let g = (int)brush.G
-    let b = (int)brush.B
-    Color.FromArgb(a, r, g, b)
+let ColorFromBitmap (bitmap: Bitmap) x y =
+    let c = bitmap.GetPixel(x, y)
+    new DnaColor(c.A, c.R, c.G, c.B)
 
 let ConvertBitmapToDnaImage (bitmap: Bitmap) =
     let width = bitmap.Width
     let height = bitmap.Height
-
     let image = {
         Width = width;
         Height = height;
-        Points = Array2D.init width height (fun i j -> new DnaBrush())
+        Points = Array2D.init width height (fun i j -> ColorFromBitmap bitmap i j)
     }
-
-    for i in 0 .. (width - 1) do
-        for j in 0 .. (height - 1) do
-            let color = bitmap.GetPixel(i, j)
-            image.Points.[i, j] <- ColorToDnaBrush(color)
     image
 
 let ConvertDnaImageToBitmap (img: DnaImage) =
@@ -39,6 +27,6 @@ let ConvertDnaImageToBitmap (img: DnaImage) =
 
     for i in 0 .. (width - 1) do
         for j in 0 .. (height - 1) do
-            let brush = img.Points.[i, j]
-            bitmap.SetPixel(i, j, DnaBrushToColor(brush))
+            let c = img.Points.[i, j]
+            bitmap.SetPixel(i, j, Color.FromArgb((int)c.A, (int)c.R, (int)c.G, (int)c.B))
     bitmap
