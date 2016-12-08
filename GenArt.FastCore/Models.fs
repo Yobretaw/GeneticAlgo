@@ -60,6 +60,15 @@ type DnaPoint =
 
     static member CreateRandomPoint(x, y, color) = new DnaPoint(x, y, color)
 
+type DnaPolygon(points, count, color) =
+    member this.Points: DnaPoint list = points
+    member this.PointCount: int = count
+    member this.Color: DnaColor = color
+
+    member this.AddPoint() = null
+    member this.RemovePoint() = null
+    member this.MovePoint() = null
+
 type DnaImage(width, height, points) =
     member this.Width: int = width
     member this.Height: int = height
@@ -69,17 +78,5 @@ type DnaImage(width, height, points) =
         Array.mapi (fun i point -> point -- b.Points.[i]) a.Points
         |> Array.sum
 
-    member this.Mutate =
-        let points = Array.map (fun (c: DnaColor) -> c.Mutate) this.Points
-        new DnaImage(this.Width, this.Height, points)
-
-    static member CalculateFitness (img1: DnaImage, img2: DnaImage) =
-        let mutable error = 0
-        for i = 0 to img1.Points.Length - 1 do
-            error <- error + (img1.Points.[i] -- img2.Points.[i])
-        error
-
-type DnaPolygon(points, count, color) =
-    member this.Points: DnaPoint list = points
-    member this.PointCount: int = count
-    member this.Color: DnaColor = color
+    static member CalculateFitness (img1: DnaImage, polygon: DnaPolygon) =
+        0

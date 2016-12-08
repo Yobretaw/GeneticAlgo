@@ -2,6 +2,7 @@
 using System.Xml.Serialization;
 using GenArt.Classes;
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace GenArt.AST
